@@ -92,7 +92,7 @@
       </div>
       <nav class="flex flex-col gap-2 text-sm">
         <button data-page="portfolio" onclick="showPage('portfolio'); toggleSidebar()" class="nav-btn text-left">Portfolio</button>
-        <button data-page="about" onclick="showPage('portfolio'); toggleSidebar()" class="nav-btn text-left">About</button>
+        <button data-page="about" onclick="showPage('about'); toggleSidebar()" class="nav-btn text-left">About</button>
         <a href="https://github.com/jukixyo/" class="nav-btn">GitHub</a>
         <a href="mailto:nathangithub25@gmail.com" class="nav-btn">Contact</a>
       </nav>
@@ -127,20 +127,37 @@
     <main class="grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-14">
 
       <!-- ABOUT -->
-      <section id="about" class="page">
-        <div class="border border-border rounded-xl p-6 bg-gradient-to-b from-white/[0.035] to-transparent">
+      <section id="about" class="page hidden">
+        <!-- Primary / important content -->
+        <div class="border border-border rounded-xl p-6 bg-gradient-to-b from-white/[0.035] to-transparent mb-10">
           <h2 class="text-xl font-semibold mb-2">About Me</h2>
           <p class="text-sm text-muted max-w-xl">
-            Hey, I’m <span class="text-white font-medium">Jukixyo</span>. I’m a C# student and mod developer who mainly works with Unity and Among Us mods. I enjoy building clean QoL features, experimenting with creepy mechanics, and contributing fixes to larger projects.
+            Hey, I’m <span class="text-white font-medium">Jukixyo</span>. I’m a C# student and mod developer focused on Unity and Among Us mods.
           </p>
-          <p class="text-sm text-muted max-w-xl mt-4">
-            I also create content around development, mods, and experiments. Minimal, performant, and slightly unsettling vibes only.
-          </p>
+        </div>
+
+        <!-- Secondary / supporting content -->
+        <div class="space-y-10">
+          <div>
+            <h3 class="text-xs uppercase tracking-widest text-muted mb-4">Questions & Answers</h3>
+
+            <div class="space-y-6">
+              <div>
+                <h4 class="font-medium">What I do?</h4>
+                <p class="text-sm text-muted max-w-xl">It can vary alot I mean I sometimes I'll be just making mods and sometimes I'll just fix bugs that I come across when playing modded Among Us. Mainly because I hate something disturbing my gameplay even if its a minor visual bug. It's like if I can fix it, then I'll fix it.</p>
+              </div>
+
+              <div>
+                <h4 class="font-medium">What games I play?</h4>
+                <p class="text-sm text-muted max-w-xl">I play Minecraft, Hytale and Among Us mainly. Minecraft I play whenever friends are online in the SMP. Hytale yk kinda like MC but I prefer singleplayer. And Among Us being my main game of choice tbh.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       <!-- PORTFOLIO -->
-      <section id="portfolio" class="page hidden">
+      <section id="portfolio" class="page">
         <div class="border border-border rounded-xl p-6 mb-14 bg-gradient-to-b from-white/[0.035] to-transparent">
           <h2 class="text-xl font-semibold mb-2">My Portfolio</h2>
           <p class="text-sm text-muted max-w-xl">I make Among Us mods and contribute to projects involving C# and Unity. I enjoy building QoL mods which enhance the gameplay experience.</p>
@@ -233,7 +250,8 @@
       });
     }
 
-    showPage('about');
+    // default page
+    showPage('portfolio');
   </script>
 
 </body>
