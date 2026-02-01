@@ -40,6 +40,15 @@
       opacity: 0.045;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
     }
+
+    .page {
+      animation: fade 0.25s ease;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 
@@ -53,9 +62,10 @@
         <button onclick="toggleSidebar()" class="text-muted text-xl">✕</button>
       </div>
       <nav class="flex flex-col gap-4 text-sm">
+        <button onclick="showPage('about'); toggleSidebar()" class="hover:text-white text-left">About</button>
+        <button onclick="showPage('portfolio'); toggleSidebar()" class="hover:text-white text-left">Portfolio</button>
         <a href="https://github.com/jukixyo/" class="hover:text-white">GitHub</a>
         <a href="mailto:nathangithub25@gmail.com" class="hover:text-white">Contact</a>
-        <a href="https://youtube.com/@jukixyo" target="_blank" class="mt-2 px-3 py-2 bg-white text-black rounded-md font-medium w-fit">My Channel</a>
       </nav>
     </div>
   </div>
@@ -74,8 +84,9 @@
 
       <!-- Desktop Nav -->
       <nav class="hidden lg:flex gap-3 items-center">
-        <a href="https://github.com/jukixyo/" class="text-sm text-muted hover:text-white">Github</a>
-        <a href="mailto:nathangithub25@gmail.com" class="text-sm text-muted hover:text-white">Contact</a>
+        <button onclick="showPage('about')" class="text-sm text-muted hover:text-white">About</button>
+        <button onclick="showPage('portfolio')" class="text-sm text-muted hover:text-white">Portfolio</button>
+        <a href="https://github.com/jukixyo/" class="text-sm text-muted hover:text-white">GitHub</a>
         <a href="https://youtube.com/@jukixyo" target="_blank" class="px-3 py-1.5 text-sm bg-white text-black rounded-md font-medium">My Channel</a>
       </nav>
 
@@ -86,7 +97,21 @@
     <!-- Main -->
     <main class="grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-14">
 
-      <section>
+      <!-- ABOUT -->
+      <section id="about" class="page">
+        <div class="border border-border rounded-xl p-6 bg-gradient-to-b from-white/[0.035] to-transparent">
+          <h2 class="text-xl font-semibold mb-2">About Me</h2>
+          <p class="text-sm text-muted max-w-xl">
+            Hey, I’m <span class="text-white font-medium">Jukixyo</span>. I’m a C# student and mod developer who mainly works with Unity and Among Us mods. I enjoy building clean QoL features, experimenting with creepy mechanics, and contributing fixes to larger projects.
+          </p>
+          <p class="text-sm text-muted max-w-xl mt-4">
+            I also create content around development, mods, and experiments. Minimal, performant, and slightly unsettling vibes only.
+          </p>
+        </div>
+      </section>
+
+      <!-- PORTFOLIO -->
+      <section id="portfolio" class="page hidden">
         <div class="border border-border rounded-xl p-6 mb-14 bg-gradient-to-b from-white/[0.035] to-transparent">
           <h2 class="text-xl font-semibold mb-2">My Portfolio</h2>
           <p class="text-sm text-muted max-w-xl">I make Among Us mods and contribute to projects involving C# and Unity. I enjoy building QoL mods which enhance the gameplay experience.</p>
@@ -134,6 +159,7 @@
         </div>
       </section>
 
+      <!-- SIDEBAR -->
       <aside class="space-y-12 text-sm">
         <div>
           <h4 class="text-xs uppercase tracking-widest text-muted mb-3">Skills</h4>
@@ -168,6 +194,13 @@
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('-translate-x-full');
     }
+
+    function showPage(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    showPage('about');
   </script>
 
 </body>
