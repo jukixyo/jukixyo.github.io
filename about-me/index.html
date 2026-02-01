@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About · Jukixyo</title>
+  <meta name="description" content="About me." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="https://i.ibb.co/21GkpPvL/favicon.png">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            bg: '#0b0b0b',
+            surface: '#141414',
+            border: 'rgba(255,255,255,0.05)',
+            muted: '#a3a3a3',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 50;
+      opacity: 0.045;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+  </style>
+</head>
+
+<body class="bg-bg text-neutral-100 font-sans antialiased">
+
+  <!-- Mobile Sidebar -->
+  <div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-bg border-r border-border transform -translate-x-full transition-transform duration-300 z-50 lg:hidden">
+    <div class="p-6 flex flex-col gap-6">
+      <div class="flex items-center justify-between">
+        <span class="font-semibold text-lg">Menu</span>
+        <button onclick="toggleSidebar()" class="text-muted text-xl">✕</button>
+      </div>
+      <nav class="flex flex-col gap-4 text-sm">
+        <a href="index.html" class="hover:text-white">Home</a>
+        <a href="about.html" class="hover:text-white">About</a>
+        <a href="https://github.com/jukixyo/" class="hover:text-white">GitHub</a>
+        <a href="mailto:nathangithub25@gmail.com" class="mt-2 px-3 py-2 bg-white text-black rounded-md font-medium w-fit">Contact</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Header / Navigation -->
+  <header class="max-w-6xl mx-auto px-6 pt-12 flex items-start justify-between">
+    <div class="flex gap-4">
+      <img src="https://avatars.githubusercontent.com/u/206367640" alt="Jukixyo avatar" class="w-11 h-11 rounded-md border border-border object-cover" />
+      <div>
+        <span class="text-base font-semibold leading-tight">Jukixyo</span>
+        <p class="text-sm text-muted">C# Student · Mod Developer · Content Creator</p>
+      </div>
+    </div>
+
+    <nav class="hidden lg:flex gap-3 items-center">
+      <a href="index.html" class="text-sm text-muted hover:text-white">Home</a>
+      <a href="about.html" class="text-sm text-white">About</a>
+      <a href="https://github.com/jukixyo/" class="text-sm text-muted hover:text-white">GitHub</a>
+      <a href="mailto:nathangithub25@gmail.com" class="px-3 py-1.5 text-sm bg-white text-black rounded-md font-medium">Contact</a>
+    </nav>
+
+    <!-- Mobile Menu Button -->
+    <button onclick="toggleSidebar()" class="lg:hidden text-muted hover:text-white text-2xl">☰</button>
+  </header>
+
+  <div class="min-h-screen max-w-6xl mx-auto px-6 pt-32">
+    <main class="max-w-3xl mx-auto">
+      <h1 class="text-4xl font-semibold text-center tracking-tight mb-8">About Me</h1>
+      <p class="text-base text-muted leading-loose max-w-2xl mx-auto text-center">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      </p>
+    </main>
+    <footer class="mt-40 pb-8 text-xs text-muted flex justify-between border-t border-border pt-6">
+      <span>Aspha · 10</span>
+      <span>© Jukixyo</span>
+    </footer>
+
+</div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('-translate-x-full');
+    }
+  </script>
+
+</body>
+</html>
