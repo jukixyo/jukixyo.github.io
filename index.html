@@ -49,6 +49,35 @@
       from { opacity: 0; transform: translateY(4px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    .nav-btn {
+      position: relative;
+      padding: 0.4rem 0.75rem;
+      border-radius: 0.5rem;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.06);
+      color: white;
+    }
+
+    .nav-btn.active {
+      background: rgba(255,255,255,0.12);
+      color: white;
+    }
+
+    .nav-btn.active::after {
+      content: '';
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      bottom: -6px;
+      height: 2px;
+      background: white;
+      border-radius: 999px;
+      opacity: 0.9;
+    }
   </style>
 </head>
 
@@ -61,11 +90,11 @@
         <span class="font-semibold text-lg">Menu</span>
         <button onclick="toggleSidebar()" class="text-muted text-xl">✕</button>
       </div>
-      <nav class="flex flex-col gap-4 text-sm">
-        <button onclick="showPage('about'); toggleSidebar()" class="hover:text-white text-left">About</button>
-        <button onclick="showPage('portfolio'); toggleSidebar()" class="hover:text-white text-left">Portfolio</button>
-        <a href="https://github.com/jukixyo/" class="hover:text-white">GitHub</a>
-        <a href="mailto:nathangithub25@gmail.com" class="hover:text-white">Contact</a>
+      <nav class="flex flex-col gap-2 text-sm">
+        <button data-page="portfolio" onclick="showPage('portfolio'); toggleSidebar()" class="nav-btn text-left">Portfolio</button>
+        <button data-page="about" onclick="showPage('portfolio'); toggleSidebar()" class="nav-btn text-left">About</button>
+        <a href="https://github.com/jukixyo/" class="nav-btn">GitHub</a>
+        <a href="mailto:nathangithub25@gmail.com" class="nav-btn">Contact</a>
       </nav>
     </div>
   </div>
@@ -83,10 +112,10 @@
       </div>
 
       <!-- Desktop Nav -->
-      <nav class="hidden lg:flex gap-3 items-center">
-        <button onclick="showPage('about')" class="text-sm text-muted hover:text-white">About</button>
-        <button onclick="showPage('portfolio')" class="text-sm text-muted hover:text-white">Portfolio</button>
-        <a href="https://github.com/jukixyo/" class="text-sm text-muted hover:text-white">GitHub</a>
+      <nav class="hidden lg:flex gap-2 items-center">
+        <button data-page="portfolio" onclick="showPage('portfolio')" class="nav-btn text-sm">Portfolio</button>
+        <button data-page="about" onclick="showPage('about')" class="nav-btn text-sm">About</button>
+        <a href="https://github.com/jukixyo/" class="nav-btn text-sm text-muted">GitHub</a>
         <a href="https://youtube.com/@jukixyo" target="_blank" class="px-3 py-1.5 text-sm bg-white text-black rounded-md font-medium">My Channel</a>
       </nav>
 
@@ -198,6 +227,10 @@
     function showPage(id) {
       document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
       document.getElementById(id).classList.remove('hidden');
+
+      document.querySelectorAll('[data-page]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.page === id);
+      });
     }
 
     showPage('about');
