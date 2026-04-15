@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>About · Jukixyo</title>
-  <meta name="description" content="About me." />
+  <meta name="description" content="About Jukixyo — mod developer focused on C#, Unity, and gameplay improvements." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,62 +40,115 @@
       opacity: 0.045;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
     }
+
+    .nav-btn {
+      position: relative;
+      padding: 0.4rem 0.75rem;
+      border-radius: 0.5rem;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .nav-btn:hover,
+    .nav-btn:focus-visible {
+      background: rgba(255,255,255,0.06);
+      color: white;
+    }
+
+    .nav-btn.active {
+      background: rgba(255,255,255,0.12);
+      color: white;
+    }
   </style>
 </head>
 
 <body class="bg-bg text-neutral-100 font-sans antialiased">
 
-  <!-- Mobile Sidebar -->
   <div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-bg border-r border-border transform -translate-x-full transition-transform duration-300 z-50 lg:hidden">
     <div class="p-6 flex flex-col gap-6">
       <div class="flex items-center justify-between">
         <span class="font-semibold text-lg">Menu</span>
         <button onclick="toggleSidebar()" class="text-muted text-xl">✕</button>
       </div>
-      <nav class="flex flex-col gap-4 text-sm">
-        <a href="index.html" class="hover:text-white">Home</a>
-        <a href="about.html" class="hover:text-white">About</a>
-        <a href="https://github.com/jukixyo/" class="hover:text-white">GitHub</a>
-        <a href="mailto:nathangithub25@gmail.com" class="mt-2 px-3 py-2 bg-white text-black rounded-md font-medium w-fit">Contact</a>
+      <nav class="flex flex-col gap-2 text-sm">
+        <a href="../" class="nav-btn">Home</a>
+        <a href="./" class="nav-btn active">About</a>
+        <a href="https://github.com/jukixyo/" class="nav-btn">GitHub</a>
+        <a href="mailto:nathangithub25@gmail.com" class="nav-btn">Contact</a>
       </nav>
     </div>
   </div>
 
-  <!-- Header / Navigation -->
-  <header class="max-w-6xl mx-auto px-6 pt-12 flex items-start justify-between">
-    <div class="flex gap-4">
-      <img src="https://avatars.githubusercontent.com/u/206367640" alt="Jukixyo avatar" class="w-11 h-11 rounded-md border border-border object-cover" />
-      <div>
-        <span class="text-base font-semibold leading-tight">Jukixyo</span>
-        <p class="text-sm text-muted">C# Student · Mod Developer · Content Creator</p>
+  <div class="max-w-6xl mx-auto px-6 py-12">
+    <header class="flex items-start justify-between mb-16">
+      <div class="flex gap-4">
+        <img src="https://avatars.githubusercontent.com/u/206367640" alt="Jukixyo avatar" class="w-11 h-11 rounded-md border border-border object-cover" />
+        <div>
+          <span class="text-base font-semibold leading-tight">Jukixyo</span>
+          <p class="text-sm text-muted">C# Student · Mod Developer · Content Creator</p>
+        </div>
       </div>
-    </div>
 
-    <nav class="hidden lg:flex gap-3 items-center">
-      <a href="index.html" class="text-sm text-muted hover:text-white">Home</a>
-      <a href="about.html" class="text-sm text-white">About</a>
-      <a href="https://github.com/jukixyo/" class="text-sm text-muted hover:text-white">GitHub</a>
-      <a href="mailto:nathangithub25@gmail.com" class="px-3 py-1.5 text-sm bg-white text-black rounded-md font-medium">Contact</a>
-    </nav>
+      <nav class="hidden lg:flex gap-2 items-center">
+        <a href="../" class="nav-btn text-sm text-muted">Home</a>
+        <a href="./" class="nav-btn text-sm active">About</a>
+        <a href="https://github.com/jukixyo/" class="nav-btn text-sm text-muted">GitHub</a>
+        <a href="mailto:nathangithub25@gmail.com" class="px-3 py-1.5 text-sm bg-white text-black rounded-md font-medium">Contact</a>
+      </nav>
 
-    <!-- Mobile Menu Button -->
-    <button onclick="toggleSidebar()" class="lg:hidden text-muted hover:text-white text-2xl">☰</button>
-  </header>
+      <button onclick="toggleSidebar()" class="lg:hidden text-muted hover:text-white text-2xl">☰</button>
+    </header>
 
-  <div class="min-h-screen max-w-6xl mx-auto px-6 pt-32">
-    <main class="max-w-3xl mx-auto">
-      <h1 class="text-4xl font-semibold text-center tracking-tight mb-8">About Me</h1>
-      <p class="text-base text-muted leading-loose max-w-2xl mx-auto text-center">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      </p>
+    <main class="grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-14">
+      <section>
+        <div class="border border-border rounded-xl p-6 mb-10 bg-gradient-to-b from-white/[0.035] to-transparent">
+          <h1 class="text-3xl font-semibold mb-3">About Me</h1>
+          <p class="text-sm text-muted max-w-2xl">I’m Jukixyo, a student developer focused on C# and Unity modding. I enjoy turning small gameplay frustrations into polished fixes and useful features that make matches feel smoother.</p>
+        </div>
+
+        <div class="space-y-8">
+          <article>
+            <h2 class="text-xs uppercase tracking-widest text-muted mb-3">What I do</h2>
+            <p class="text-sm text-muted max-w-2xl">I work on Among Us mods, build prototypes, and contribute bug fixes to community projects. My favorite tasks involve debugging edge cases, polishing interaction flow, and making systems easier for players to understand.</p>
+          </article>
+
+          <article>
+            <h2 class="text-xs uppercase tracking-widest text-muted mb-3">Current focus</h2>
+            <ul class="space-y-2 text-sm text-muted list-disc list-inside">
+              <li>Gameplay quality-of-life features</li>
+              <li>Stable C# architecture for mod features</li>
+              <li>UI and map-related bug fixes in Unity projects</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <aside class="space-y-10 text-sm">
+        <div>
+          <h3 class="text-xs uppercase tracking-widest text-muted mb-3">Toolset</h3>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-2 py-1 rounded-md bg-surface border border-border">C#</span>
+            <span class="px-2 py-1 rounded-md bg-surface border border-border">Unity</span>
+            <span class="px-2 py-1 rounded-md bg-surface border border-border">Git</span>
+            <span class="px-2 py-1 rounded-md bg-surface border border-border">HTML/CSS</span>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-xs uppercase tracking-widest text-muted mb-3">Links</h3>
+          <div class="flex flex-col gap-2">
+            <a href="https://github.com/jukixyo" class="hover:underline">GitHub</a>
+            <a href="https://youtube.com/@jukixyo" class="hover:underline">YouTube</a>
+            <a href="mailto:nathangithub25@gmail.com" class="hover:underline">Email</a>
+          </div>
+        </div>
+      </aside>
     </main>
-    <footer class="mt-40 pb-8 text-xs text-muted flex justify-between border-t border-border pt-6">
+
+    <footer class="mt-24 text-xs text-muted flex justify-between">
       <span>Aspha · 10</span>
       <span>© Jukixyo</span>
     </footer>
-
-</div>
+  </div>
 
   <script>
     function toggleSidebar() {
