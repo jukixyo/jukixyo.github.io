@@ -45,7 +45,7 @@ body{
     position:fixed;
     inset:-20px;
 
-    background-image:url("https://github.com/SleepyCatHey/CozyPixels/blob/main/Catppuccin/Anime%20&%20Gaming/pixel-alley.png?raw=true");
+    background-image:url("./pixel-alley.png");
     background-size:cover;
     background-position:center;
 
@@ -56,8 +56,14 @@ body{
 
     z-index:-3;
 
-    animation:bgReveal 1.5s ease forwards;
-    animation-delay:.3s;
+    transition:
+        transform 1.6s ease,
+        opacity 1.6s ease;
+}
+
+.background.animate{
+    transform:scale(1.05);
+    opacity:1;
 }
 
 @keyframes bgReveal{
@@ -122,6 +128,80 @@ svg{
         drop-shadow(0 0 24px rgba(255,255,255,.2));
 }
 
+.socials{
+    position:fixed;
+    bottom:24px;
+    left:50%;
+    transform:translateX(-50%);
+
+    display:flex;
+    gap:14px;
+    align-items:center;
+
+    padding:10px 18px;
+
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+
+    border-radius:999px;
+
+    color:white;
+
+    font-family:
+        Inter,
+        system-ui,
+        sans-serif;
+
+    font-size:14px;
+
+    opacity:0;
+
+    transition:opacity .8s ease;
+
+    box-shadow:
+        0 0 30px rgba(255,255,255,.05);
+
+    z-index:50;
+}
+
+.socials.show{
+    opacity:1;
+}
+
+.socials a{
+    color:white;
+    text-decoration:none;
+    opacity:.8;
+    transition:.25s;
+}
+
+.socials a:hover{
+    opacity:1;
+}
+
+.socials span{
+    opacity:.35;
+}
+
+svg{
+    width:min(1000px,85vw);
+    overflow:visible;
+
+    opacity:0;
+    transform:translateY(8px);
+
+    transition:
+        opacity .8s ease,
+        transform .8s ease;
+}
+
+svg.show{
+    opacity:1;
+    transform:translateY(0);
+}
 </style>
 </head>
 <body>
@@ -140,10 +220,22 @@ d="M106.34,289.665C106.34,289.665,165.893,256.182,170.149,219.756C172.576,198.97
 
 </svg>
 
+<div class="socials">
+    <a href="https://github.com/jukixyo" target="_blank">GitHub</a>
+    <span>•</span>
+
+    <a href="https://youtube.com/@Jukixyo" target="_blank">YouTube</a>
+    <span>•</span>
+
+    <a href="https://www.roblox.com/users/10784521130/profile" target="_blank">Roblox</a>
+</div>
+
 <script>
 
 const intro = document.getElementById("intro");
 const path = document.getElementById("writePath");
+const bg = document.querySelector(".background");
+const socials = document.querySelector(".socials");
 
 const length = path.getTotalLength();
 
@@ -151,6 +243,12 @@ path.style.strokeDasharray = length;
 path.style.strokeDashoffset = length;
 
 window.addEventListener("load", () => {
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            bg.classList.add("animate");
+        });
+    });
 
     setTimeout(() => {
 
@@ -167,6 +265,7 @@ window.addEventListener("load", () => {
 
         setTimeout(() => {
 
+            document.querySelector("svg").classList.add("show");
             path.animate(
             [
                 { strokeDashoffset: length },
@@ -177,6 +276,10 @@ window.addEventListener("load", () => {
                 easing: "ease-in-out",
                 fill: "forwards"
             });
+
+            setTimeout(() => {
+                socials.classList.add("show");
+            }, 3200);
 
         }, 250);
 
