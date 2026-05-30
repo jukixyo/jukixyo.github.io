@@ -1,258 +1,190 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Jukixyo</title>
-  <meta name="description" content="Developer portfolio — tools, mods, backend." />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/png" href="https://i.ibb.co/21GkpPvL/favicon.png">
+<title>Jukixyo</title>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif'],
-          },
-          colors: {
-            bg: '#0b0b0b',
-            surface: '#141414',
-            border: 'rgba(255,255,255,0.05)',
-            muted: '#a3a3a3',
-          }
-        }
-      }
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:black;
+}
+
+/* Intro Screen */
+
+#intro{
+    position:fixed;
+    inset:0;
+
+    background:black;
+
+    z-index:9999;
+
+    pointer-events:none;
+}
+
+/* Background */
+
+.background{
+    position:fixed;
+    inset:-20px;
+
+    background-image:url("https://github.com/SleepyCatHey/CozyPixels/blob/main/Catppuccin/Anime%20&%20Gaming/pixel-alley.png?raw=true");
+    background-size:cover;
+    background-position:center;
+
+    filter:blur(5px) brightness(.8);
+
+    transform:scale(1.12);
+    opacity:0;
+
+    z-index:-3;
+
+    animation:bgReveal 1.5s ease forwards;
+    animation-delay:.3s;
+}
+
+@keyframes bgReveal{
+    to{
+        opacity:1;
+        transform:scale(1.05);
     }
-  </script>
+}
 
-  <style>
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 50;
-      opacity: 0.045;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
-    }
+/* Dark Overlay */
 
-    .page {
-      animation: fade 0.25s ease;
-    }
+.overlay{
+    position:fixed;
+    inset:0;
 
-    @keyframes fade {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    background:rgba(0,0,0,.25);
 
-    .nav-btn {
-      position: relative;
-      padding: 0.4rem 0.75rem;
-      border-radius: 0.5rem;
-      transition: background 0.15s ease, color 0.15s ease;
-    }
+    z-index:-2;
+}
 
-    .nav-btn:hover {
-      background: rgba(255,255,255,0.06);
-      color: white;
-    }
+/* Glow */
 
-    .nav-btn.active {
-      background: rgba(255,255,255,0.12);
-      color: white;
-    }
+.logo-glow{
+    position:absolute;
 
-    .nav-btn.active::after {
-      content: '';
-      position: absolute;
-      left: 8px;
-      right: 8px;
-      bottom: -6px;
-      height: 2px;
-      background: white;
-      border-radius: 999px;
-      opacity: 0.9;
-    }
-  </style>
+    width:800px;
+    height:300px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(255,255,255,.08),
+        transparent 70%
+    );
+
+    filter:blur(40px);
+
+    z-index:-1;
+}
+
+/* SVG */
+
+svg{
+    width:min(1000px,85vw);
+    overflow:visible;
+}
+
+#writePath{
+    fill:none;
+
+    stroke:white;
+    stroke-width:5.5;
+
+    stroke-linecap:round;
+    stroke-linejoin:round;
+
+    filter:
+        drop-shadow(0 0 4px rgba(255,255,255,.9))
+        drop-shadow(0 0 12px rgba(255,255,255,.6))
+        drop-shadow(0 0 24px rgba(255,255,255,.2));
+}
+
+</style>
 </head>
+<body>
 
-<body class="bg-bg text-neutral-100 font-sans antialiased">
+<div id="intro"></div>
 
-  <!-- Mobile Sidebar -->
-  <div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-bg border-r border-border transform -translate-x-full transition-transform duration-300 z-50 lg:hidden">
-    <div class="p-6 flex flex-col gap-6">
-      <div class="flex items-center justify-between">
-        <span class="font-semibold text-lg">Menu</span>
-        <button onclick="toggleSidebar()" class="text-muted text-xl">✕</button>
-      </div>
-      <nav class="flex flex-col gap-2 text-sm">
-        <button data-page="portfolio" onclick="showPage('portfolio'); toggleSidebar()" class="nav-btn text-left">Portfolio</button>
-        <button data-page="about" onclick="showPage('about'); toggleSidebar()" class="nav-btn text-left">About</button>
-        <a href="https://github.com/jukixyo/" class="nav-btn">GitHub</a>
-        <a href="mailto:nathangithub25@gmail.com" class="nav-btn">Contact</a>
-      </nav>
-    </div>
-  </div>
+<div class="background"></div>
+<div class="overlay"></div>
+<div class="logo-glow"></div>
 
-  <div class="max-w-6xl mx-auto px-6 py-12">
+<svg viewBox="0 0 500 500">
 
-    <!-- Header -->
-    <header class="flex items-start justify-between mb-16">
-      <div class="flex gap-4">
-        <img src="https://avatars.githubusercontent.com/u/206367640" alt="Jukixyo avatar" class="w-11 h-11 rounded-md border border-border object-cover" />
-        <div>
-          <span class="text-base font-semibold leading-tight">Jukixyo</span>
-          <p class="text-sm text-muted">C# Student · Mod Developer · Content Creator</p>
-        </div>
-      </div>
+<path
+id="writePath"
+d="M106.34,289.665C106.34,289.665,165.893,256.182,170.149,219.756C172.576,198.975,153.427,201.781,150.574,222.905C148.243,240.163,142.404,286.479,142.404,286.479C142.404,286.479,148.021,245.884,166.149,247.671C186.064,250.001,160.021,285.968,183,286.223C203.427,286.45,224.361,268.606,225.127,256.861C226.01,243.319,207.638,241.032,201.978,257.884C196.774,273.379,208.416,290.82,228.46,286.499C259.341,279.84,274.483,235.091,275.936,219.841C277.467,203.756,265.723,202.224,258.574,216.521C251.896,229.878,240.755,283.003,264.958,287.501C293.809,292.862,316.277,240.012,319.086,222.139C321.802,204.852,310.656,199.966,302.234,215.245C293.166,231.695,279.843,289.995,311.937,287.244C338.746,284.946,328.916,248.182,354.898,245.868C366.562,244.83,371.386,255.838,370.532,266.947C369.638,278.564,358.66,288.393,347.809,286.861C337.898,285.462,332.838,271.891,335.425,262.99C338.617,252.012,348.662,246.038,354.898,245.868C363.766,245.628,368.234,251.245,376.149,251.117C383.179,251.004,390.27,242.996,390.27,242.996"/>
 
-      <!-- Desktop Nav -->
-      <nav class="hidden lg:flex gap-2 items-center">
-        <button data-page="portfolio" onclick="showPage('portfolio')" class="nav-btn text-sm">Portfolio</button>
-        <button data-page="about" onclick="showPage('about')" class="nav-btn text-sm">About</button>
-        <a href="https://github.com/jukixyo/" class="nav-btn text-sm text-muted">GitHub</a>
-        <a href="https://youtube.com/@jukixyo" target="_blank" class="px-3 py-1.5 text-sm bg-white text-black rounded-md font-medium">My Channel</a>
-      </nav>
+</svg>
 
-      <!-- Mobile Button -->
-      <button onclick="toggleSidebar()" class="lg:hidden text-muted hover:text-white text-2xl">☰</button>
-    </header>
+<script>
 
-    <!-- Main -->
-    <main class="grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-14">
+const intro = document.getElementById("intro");
+const path = document.getElementById("writePath");
 
-      <!-- ABOUT -->
-      <section id="about" class="page hidden">
-        <!-- Primary / important content -->
-        <div class="border border-border rounded-xl p-6 bg-gradient-to-b from-white/[0.035] to-transparent mb-10">
-          <h2 class="text-xl font-semibold mb-2">About Me</h2>
-          <p class="text-sm text-muted max-w-xl">
-            Hey, I’m <span class="text-white font-medium">Jukixyo</span>. I’m a C# student and mod developer focused on Unity and Among Us mods.
-          </p>
-        </div>
+const length = path.getTotalLength();
 
-        <!-- Secondary / supporting content -->
-        <div class="space-y-10">
-          <div>
-            <h3 class="text-xs uppercase tracking-widest text-muted mb-4">Questions & Answers</h3>
+path.style.strokeDasharray = length;
+path.style.strokeDashoffset = length;
 
-            <div class="space-y-6">
-              <div>
-                <h4 class="font-medium">What I do?</h4>
-                <p class="text-sm text-muted max-w-xl">It can vary alot I mean I sometimes I'll be just making mods and sometimes I'll just fix bugs that I come across when playing modded Among Us. Mainly because I hate something disturbing my gameplay even if its a minor visual bug. It's like if I can fix it, then I'll fix it.</p>
-              </div>
+window.addEventListener("load", () => {
 
-              <div>
-                <h4 class="font-medium">What games I play?</h4>
-                <p class="text-sm text-muted max-w-xl">I play Minecraft, Hytale and Among Us mainly. Minecraft I play whenever friends are online in the SMP. Hytale yk kinda like MC but I prefer singleplayer. And Among Us being my main game of choice tbh.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+    setTimeout(() => {
 
-      <!-- PORTFOLIO -->
-      <section id="portfolio" class="page">
-        <div class="border border-border rounded-xl p-6 mb-14 bg-gradient-to-b from-white/[0.035] to-transparent">
-          <h2 class="text-xl font-semibold mb-2">My Portfolio</h2>
-          <p class="text-sm text-muted max-w-xl">I make Among Us mods and contribute to projects involving C# and Unity. I enjoy building QoL mods which enhance the gameplay experience.</p>
-          <div class="flex gap-5 mt-6 text-sm">
-            <a href="https://github.com/jukixyo/" class="underline underline-offset-4 hover:text-white">View projects</a>
-            <a href="mailto:nathangithub25@gmail.com" class="underline underline-offset-4 hover:text-white">Contact</a>
-          </div>
-        </div>
+        intro.animate(
+        [
+            { opacity: 1 },
+            { opacity: 0 }
+        ],
+        {
+            duration: 700,
+            easing: "ease-out",
+            fill: "forwards"
+        });
 
-        <div class="space-y-10">
-          <h3 class="text-xs uppercase tracking-widest text-muted">Selected projects</h3>
+        setTimeout(() => {
 
-          <div class="pb-8 border-b border-border">
-            <h4 class="font-medium">ScrollZoom</h4>
-            <p class="text-sm text-muted mt-1 max-w-xl">Camera zoom utility for Among Us. Allows zooming using the mouse scroll wheel.</p>
-            <div class="flex gap-4 mt-3 text-xs text-muted"><span>C#</span><span>Unity</span><span>Mod</span></div>
-            <div class="flex gap-5 mt-3 text-sm">
-              <a href="https://github.com/jukixyo/ScrollZoom" class="hover:underline">Repo</a>
-              <a href="https://github.com/jukixyo/ScrollZoom/releases" class="hover:underline">Releases</a>
-            </div>
-          </div>
+            path.animate(
+            [
+                { strokeDashoffset: length },
+                { strokeDashoffset: 0 }
+            ],
+            {
+                duration: 3500,
+                easing: "ease-in-out",
+                fill: "forwards"
+            });
 
-          <div class="pb-8 border-b border-border">
-            <h4 class="font-medium">NoVisor</h4>
-            <p class="text-sm text-muted mt-1 max-w-xl">Mod that adds an Among Us creepypasta called NoVisor.</p>
-            <div class="flex gap-4 mt-3 text-xs text-muted"><span>C#</span><span>Unity</span><span>Mod</span></div>
-            <div class="mt-3 text-xs text-muted">Private</div>
-          </div>
-        </div>
+        }, 250);
 
-        <div class="space-y-10 mt-16">
-          <h3 class="text-xs uppercase tracking-widest text-muted">Contributed projects</h3>
+    }, 300);
 
-          <div class="pb-8 border-b border-border">
-            <h4 class="font-medium">Town Of Us: Mira</h4>
-            <p class="text-sm text-muted mt-1 max-w-xl">Town of Us Reactivated, but cleaner using MiraAPI with many improvements!</p>
-            <div class="mt-3 text-xs text-muted">Fixed Cameras not aligned properly on Submerged Map</div>
-          </div>
+});
 
-          <div class="pb-8 border-b border-border">
-            <h4 class="font-medium">Submerged</h4>
-            <p class="text-sm text-muted mt-1 max-w-xl">An Among Us mod which adds a new underwater map</p>
-            <div class="mt-3 text-xs text-muted">Fixed ResetBreakers Task & Door Sabotage</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SIDEBAR -->
-      <aside class="space-y-12 text-sm">
-        <div>
-          <h4 class="text-xs uppercase tracking-widest text-muted mb-3">Skills</h4>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-2 py-1 rounded-md bg-surface border border-border">C#</span>
-            <span class="px-2 py-1 rounded-md bg-surface border border-border">Unity</span>
-            <span class="px-2 py-1 rounded-md bg-surface border border-border">HTML & CSS</span>
-            <span class="px-2 py-1 rounded-md bg-surface border border-border">Git</span>
-            <span class="px-2 py-1 rounded-md bg-surface border border-border">Docker</span>
-            <span class="px-2 py-1 rounded-md bg-surface border border-border">Graphics</span>
-          </div>
-        </div>
-
-        <div>
-          <h4 class="text-xs uppercase tracking-widest text-muted mb-3">Contact</h4>
-          <div class="flex flex-col gap-2">
-            <a href="https://youtube.com/@jukixyo" class="hover:underline">YouTube</a>
-            <a href="https://github.com/jukixyo" class="hover:underline">GitHub</a>
-            <a href="mailto:nathangithub25@gmail.com" class="hover:underline">Email</a>
-          </div>
-        </div>
-      </aside>
-    </main>
-
-    <footer class="mt-24 text-xs text-muted flex justify-between">
-      <span>Aspha · 10</span>
-      <span>© Jukixyo</span>
-    </footer>
-  </div>
-
-  <script>
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('-translate-x-full');
-    }
-
-    function showPage(id) {
-      document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-      document.getElementById(id).classList.remove('hidden');
-
-      document.querySelectorAll('[data-page]').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.page === id);
-      });
-    }
-
-    // default page
-    showPage('portfolio');
-  </script>
+</script>
 
 </body>
 </html>
