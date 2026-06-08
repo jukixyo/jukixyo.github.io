@@ -3,291 +3,337 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Jukixyo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Syne:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body{
-    width:100vw;
-    height:100vh;
-    overflow:hidden;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    background:black;
+:root {
+  --white: #f5f3ef;
+  --dim: rgba(245,243,239,0.45);
+  --faint: rgba(245,243,239,0.12);
+  --ink: rgba(245,243,239,0.08);
 }
 
-/* Intro Screen */
-
-#intro{
-    position:fixed;
-    inset:0;
-
-    background:black;
-
-    z-index:9999;
-
-    pointer-events:none;
+html, body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #0a0908;
 }
 
-/* Background */
+/* ── Background ── */
+.bg {
+  position: fixed;
+  inset: -30px;
+  background-image: url("./pixel-alley.png");
+  background-size: cover;
+  background-position: center;
+  filter: blur(6px) brightness(0.55) saturate(0.7);
+  transform: scale(1.15);
+  opacity: 0;
+  z-index: 0;
+  transition: opacity 2s ease, transform 2s ease;
+}
+.bg.reveal { opacity: 1; transform: scale(1.05); }
 
-.background{
-    position:fixed;
-    inset:-20px;
-
-    background-image:url("./pixel-alley.png");
-    background-size:cover;
-    background-position:center;
-
-    filter:blur(5px) brightness(.8);
-
-    transform:scale(1.12);
-    opacity:0;
-
-    z-index:-3;
-
-    transition:
-        transform 1.6s ease,
-        opacity 1.6s ease;
+/* vignette */
+.vignette {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(10,9,8,0.82) 100%);
+  z-index: 1;
 }
 
-.background.animate{
-    transform:scale(1.05);
-    opacity:1;
+/* subtle grain */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px;
+  pointer-events: none;
 }
 
-@keyframes bgReveal{
-    to{
-        opacity:1;
-        transform:scale(1.05);
-    }
+/* ── Intro flash ── */
+#intro {
+  position: fixed;
+  inset: 0;
+  background: #0a0908;
+  z-index: 9999;
+  pointer-events: none;
 }
 
-/* Dark Overlay */
-
-.overlay{
-    position:fixed;
-    inset:0;
-
-    background:rgba(0,0,0,.25);
-
-    z-index:-2;
+/* ── Main stage ── */
+.stage {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
 }
 
-/* Glow */
+/* ── Logo SVG ── */
+.logo-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.logo-wrap.show { opacity: 1; transform: translateY(0); }
 
-.logo-glow{
-    position:absolute;
-
-    width:800px;
-    height:300px;
-
-    border-radius:50%;
-
-    background:
-    radial-gradient(
-        circle,
-        rgba(255,255,255,.08),
-        transparent 70%
-    );
-
-    filter:blur(40px);
-
-    z-index:-1;
+.glow-halo {
+  position: absolute;
+  width: 600px;
+  height: 200px;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.055) 0%, transparent 70%);
+  filter: blur(30px);
+  pointer-events: none;
 }
 
-/* SVG */
-
-svg{
-    width:min(1000px,85vw);
-    overflow:visible;
+svg.logo {
+  width: min(760px, 82vw);
+  overflow: visible;
+  display: block;
 }
 
-#writePath{
-    fill:none;
-
-    stroke:white;
-    stroke-width:5.5;
-
-    stroke-linecap:round;
-    stroke-linejoin:round;
-
-    filter:
-        drop-shadow(0 0 4px rgba(255,255,255,.9))
-        drop-shadow(0 0 12px rgba(255,255,255,.6))
-        drop-shadow(0 0 24px rgba(255,255,255,.2));
+#writePath {
+  fill: none;
+  stroke: var(--white);
+  stroke-width: 4.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter:
+    drop-shadow(0 0 3px rgba(255,255,255,1))
+    drop-shadow(0 0 10px rgba(255,255,255,0.55))
+    drop-shadow(0 0 28px rgba(255,255,255,0.18));
 }
 
-.socials{
-    position:fixed;
-    bottom:24px;
-    left:50%;
-    transform:translateX(-50%);
+/* ── Tagline ── */
+.tagline {
+  margin-top: 28px;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(13px, 1.6vw, 17px);
+  color: var(--dim);
+  letter-spacing: 0.25em;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 1s ease 0.15s, transform 1s ease 0.15s;
+}
+.tagline.show { opacity: 1; transform: translateY(0); }
 
-    display:flex;
-    gap:14px;
-    align-items:center;
+/* ── Divider ── */
+.divider {
+  margin-top: 36px;
+  width: 1px;
+  height: 0;
+  background: linear-gradient(to bottom, transparent, var(--faint) 40%, var(--faint) 60%, transparent);
+  transition: height 0.9s ease 0.3s;
+}
+.divider.show { height: 48px; }
 
-    padding:10px 18px;
+/* ── Socials ── */
+.socials {
+  margin-top: 36px;
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.9s ease 0.45s, transform 0.9s ease 0.45s;
+}
+.socials.show { opacity: 1; transform: translateY(0); }
 
-    backdrop-filter:blur(16px);
-    -webkit-backdrop-filter:blur(16px);
+.socials a {
+  font-family: 'Syne', sans-serif;
+  font-weight: 300;
+  font-size: clamp(11px, 1.1vw, 13px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+.socials a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--white);
+  transition: width 0.35s ease;
+}
+.socials a:hover { color: var(--white); }
+.socials a:hover::after { width: 100%; }
 
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.12);
-
-    border-radius:999px;
-
-    color:white;
-
-    font-family:
-        Inter,
-        system-ui,
-        sans-serif;
-
-    font-size:14px;
-
-    opacity:0;
-
-    transition:opacity .8s ease;
-
-    box-shadow:
-        0 0 30px rgba(255,255,255,.05);
-
-    z-index:50;
+.sep {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--faint);
 }
 
-.socials.show{
-    opacity:1;
+/* ── Corner accent ── */
+.corner {
+  position: fixed;
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(245,243,239,0.18);
+  opacity: 0;
+  transition: opacity 1.2s ease 1s;
+  z-index: 20;
 }
+.corner.show { opacity: 1; }
+.corner-tl { top: 28px; left: 32px; }
+.corner-tr { top: 28px; right: 32px; text-align: right; }
+.corner-bl { bottom: 28px; left: 32px; }
+.corner-br { bottom: 28px; right: 32px; }
 
-.socials a{
-    color:white;
-    text-decoration:none;
-    opacity:.8;
-    transition:.25s;
-}
-
-.socials a:hover{
-    opacity:1;
-}
-
-.socials span{
-    opacity:.35;
-}
-
-svg{
-    width:min(1000px,85vw);
-    overflow:visible;
-
-    opacity:0;
-    transform:translateY(8px);
-
-    transition:
-        opacity .8s ease,
-        transform .8s ease;
-}
-
-svg.show{
-    opacity:1;
-    transform:translateY(0);
+/* ── Mouse follower ── */
+.cursor-glow {
+  position: fixed;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  transition: opacity 0.4s ease;
+  opacity: 0;
 }
 </style>
 </head>
 <body>
 
 <div id="intro"></div>
+<div class="bg"></div>
+<div class="vignette"></div>
+<div class="grain"></div>
+<div class="cursor-glow" id="cursorGlow"></div>
 
-<div class="background"></div>
-<div class="overlay"></div>
-<div class="logo-glow"></div>
+<!-- corner labels -->
+<div class="corner corner-tl">Portfolio</div>
+<div class="corner corner-tr" id="clockEl"></div>
+<div class="corner corner-bl">2025</div>
+<div class="corner corner-br">Jukixyo</div>
 
-<svg viewBox="0 0 500 500">
+<div class="stage">
+  <div class="logo-wrap">
+    <div class="glow-halo"></div>
+    <svg class="logo" viewBox="0 0 500 130">
+      <path
+        id="writePath"
+        d="M106.34,89.665C106.34,89.665,165.893,56.182,170.149,19.756C172.576,-1.025,153.427,1.781,150.574,22.905C148.243,40.163,142.404,86.479,142.404,86.479C142.404,86.479,148.021,45.884,166.149,47.671C186.064,50.001,160.021,85.968,183,86.223C203.427,86.45,224.361,68.606,225.127,56.861C226.01,43.319,207.638,41.032,201.978,57.884C196.774,73.379,208.416,90.82,228.46,86.499C259.341,79.84,274.483,35.091,275.936,19.841C277.467,3.756,265.723,2.224,258.574,16.521C251.896,29.878,240.755,83.003,264.958,87.501C293.809,92.862,316.277,40.012,319.086,22.139C321.802,4.852,310.656,-0.034,302.234,15.245C293.166,31.695,279.843,89.995,311.937,87.244C338.746,84.946,328.916,48.182,354.898,45.868C366.562,44.83,371.386,55.838,370.532,66.947C369.638,78.564,358.66,88.393,347.809,86.861C337.898,85.462,332.838,71.891,335.425,62.99C338.617,52.012,348.662,46.038,354.898,45.868C363.766,45.628,368.234,51.245,376.149,51.117C383.179,51.004,390.27,42.996,390.27,42.996"
+      />
+    </svg>
+  </div>
 
-<path
-id="writePath"
-d="M106.34,289.665C106.34,289.665,165.893,256.182,170.149,219.756C172.576,198.975,153.427,201.781,150.574,222.905C148.243,240.163,142.404,286.479,142.404,286.479C142.404,286.479,148.021,245.884,166.149,247.671C186.064,250.001,160.021,285.968,183,286.223C203.427,286.45,224.361,268.606,225.127,256.861C226.01,243.319,207.638,241.032,201.978,257.884C196.774,273.379,208.416,290.82,228.46,286.499C259.341,279.84,274.483,235.091,275.936,219.841C277.467,203.756,265.723,202.224,258.574,216.521C251.896,229.878,240.755,283.003,264.958,287.501C293.809,292.862,316.277,240.012,319.086,222.139C321.802,204.852,310.656,199.966,302.234,215.245C293.166,231.695,279.843,289.995,311.937,287.244C338.746,284.946,328.916,248.182,354.898,245.868C366.562,244.83,371.386,255.838,370.532,266.947C369.638,278.564,358.66,288.393,347.809,286.861C337.898,285.462,332.838,271.891,335.425,262.99C338.617,252.012,348.662,246.038,354.898,245.868C363.766,245.628,368.234,251.245,376.149,251.117C383.179,251.004,390.27,242.996,390.27,242.996"/>
+  <p class="tagline">developer &amp; creator</p>
 
-</svg>
+  <div class="divider"></div>
 
-<div class="socials">
+  <nav class="socials">
     <a href="https://github.com/jukixyo" target="_blank">GitHub</a>
-    <span>•</span>
-
+    <div class="sep"></div>
     <a href="https://youtube.com/@Jukixyo" target="_blank">YouTube</a>
-    <span>•</span>
-
+    <div class="sep"></div>
     <a href="https://www.roblox.com/users/10784521130/profile" target="_blank">Roblox</a>
+  </nav>
 </div>
 
 <script>
+const intro     = document.getElementById("intro");
+const path      = document.getElementById("writePath");
+const bg        = document.querySelector(".bg");
+const logoWrap  = document.querySelector(".logo-wrap");
+const logoSvg   = document.querySelector("svg.logo");
+const tagline   = document.querySelector(".tagline");
+const divider   = document.querySelector(".divider");
+const socials   = document.querySelector(".socials");
+const corners   = document.querySelectorAll(".corner");
+const cursorGlow= document.getElementById("cursorGlow");
+const clockEl   = document.getElementById("clockEl");
 
-const intro = document.getElementById("intro");
-const path = document.getElementById("writePath");
-const bg = document.querySelector(".background");
-const socials = document.querySelector(".socials");
+/* ── Live clock ── */
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  clockEl.textContent = `${h}:${m}:${s}`;
+}
+updateClock();
+setInterval(updateClock, 1000);
 
+/* ── Mouse glow ── */
+document.addEventListener("mousemove", e => {
+  cursorGlow.style.left = e.clientX + "px";
+  cursorGlow.style.top  = e.clientY + "px";
+  cursorGlow.style.opacity = "1";
+});
+document.addEventListener("mouseleave", () => {
+  cursorGlow.style.opacity = "0";
+});
+
+/* ── Draw animation ── */
 const length = path.getTotalLength();
-
-path.style.strokeDasharray = length;
+path.style.strokeDasharray  = length;
 path.style.strokeDashoffset = length;
 
 window.addEventListener("load", () => {
+  /* bg parallax reveal */
+  requestAnimationFrame(() => requestAnimationFrame(() => bg.classList.add("reveal")));
 
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            bg.classList.add("animate");
-        });
-    });
+  /* fade out intro */
+  setTimeout(() => {
+    intro.animate([{ opacity:1 },{ opacity:0 }], { duration:600, easing:"ease-out", fill:"forwards" });
 
     setTimeout(() => {
+      /* show logo + draw stroke */
+      logoWrap.classList.add("show");
 
-        intro.animate(
-        [
-            { opacity: 1 },
-            { opacity: 0 }
-        ],
-        {
-            duration: 700,
-            easing: "ease-out",
-            fill: "forwards"
-        });
+      path.animate(
+        [{ strokeDashoffset: length },{ strokeDashoffset: 0 }],
+        { duration: 3200, easing: "cubic-bezier(0.4,0,0.2,1)", fill: "forwards" }
+      );
 
-        setTimeout(() => {
-
-            document.querySelector("svg").classList.add("show");
-            path.animate(
-            [
-                { strokeDashoffset: length },
-                { strokeDashoffset: 0 }
-            ],
-            {
-                duration: 3500,
-                easing: "ease-in-out",
-                fill: "forwards"
-            });
-
-            setTimeout(() => {
-                socials.classList.add("show");
-            }, 3200);
-
-        }, 250);
+      /* staggered UI reveals */
+      setTimeout(() => tagline.classList.add("show"),  2800);
+      setTimeout(() => divider.classList.add("show"),  3100);
+      setTimeout(() => socials.classList.add("show"),  3400);
+      setTimeout(() => corners.forEach(c => c.classList.add("show")), 3600);
 
     }, 300);
-
+  }, 250);
 });
 
+/* ── Subtle parallax on bg ── */
+document.addEventListener("mousemove", e => {
+  const rx = (e.clientX / window.innerWidth  - 0.5) * 8;
+  const ry = (e.clientY / window.innerHeight - 0.5) * 8;
+  bg.style.transform = `scale(1.05) translate(${rx}px, ${ry}px)`;
+});
 </script>
-
 </body>
 </html>
